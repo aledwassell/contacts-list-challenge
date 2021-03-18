@@ -1,0 +1,11 @@
+<form [formGroup]="form" fxLayout.xs="column" fxLayoutAlign=" center" fxLayoutGap="15px">
+  <mat-form-field>
+    <mat-label>Provide a Model URL</mat-label>
+    <input [formControl]="firstName" matInput placeholder="http://model.URL">
+    <!-- <button *ngIf="modelUrl.invalid" (click)="modelUrl.reset()"
+            mat-button matSuffix mat-icon-button aria-label="Clear">
+      <mat-icon>close</mat-icon>
+    </button> -->
+    <mat-error>Must be a URL, e.g. http:// or https://</mat-error>
+  </mat-form-field>
+</form>
