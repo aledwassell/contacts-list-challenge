@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Contact, CoreService } from './../../services/core.service';
+import { Contact, CoreService } from '../../services/core.service';
 
 @Component({
   selector: 'app-address-list',
@@ -11,5 +11,9 @@ export class AddressListComponent {
 
   constructor(private core: CoreService) {
     this.contacts = core.contacts;
+  }
+
+  remove(contact: Contact) {
+    this.core.removeContact(contact);
   }
 }

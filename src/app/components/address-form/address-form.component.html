@@ -1,11 +1,27 @@
-<form [formGroup]="form" fxLayout.xs="column" fxLayoutAlign=" center" fxLayoutGap="15px">
-  <mat-form-field>
-    <mat-label>Provide a Model URL</mat-label>
-    <input [formControl]="firstName" matInput placeholder="http://model.URL">
-    <!-- <button *ngIf="modelUrl.invalid" (click)="modelUrl.reset()"
-            mat-button matSuffix mat-icon-button aria-label="Clear">
-      <mat-icon>close</mat-icon>
-    </button> -->
-    <mat-error>Must be a URL, e.g. http:// or https://</mat-error>
-  </mat-form-field>
-</form>
+<mat-card>
+  <mat-card-header>
+      <mat-card-title>Add New Contact</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" fxLayout.xs="column" fxLayoutAlign=" center" fxLayoutGap="15px">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input [formControl]="firstName" matInput placeholder="Mike">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input [formControl]="lastName" matInput placeholder="Smith">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input [formControl]="phoneNumber" matInput placeholder="+44 555-079-891">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions fxLayoutAlign="end">
+    <button (click)="submit()" mat-raised-button color="primary" aria-label="Submit">
+      Submit
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

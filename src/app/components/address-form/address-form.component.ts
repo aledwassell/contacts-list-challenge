@@ -16,21 +16,21 @@ export class AddressFormComponent {
 
   constructor(private core: CoreService) {}
 
-  get firstName(): string {
-    return this.form['firstName'].value;
+  get firstName(): AbstractControl {
+    return this.form.controls['firstName'];
   }
-  get lastName(): string {
-    return this.form['lastName'].value;
+  get lastName(): AbstractControl {
+    return this.form.controls['lastName'];
   }
-  get phoneNumber(): string|null {
-    return this.form['phoneNumber'].value ?? null;
+  get phoneNumber(): AbstractControl {
+    return this.form.controls['phoneNumber'];
   }
 
   submit(){
-    console.log(this.firstName)
-    console.log(this.lastName);
-    console.log(this.phoneNumber);
-    this.core.addContact(new Contact(this.firstName, this.lastName, this.phoneNumber));
+    this.core.addContact(new Contact(this.firstName.value, this.lastName.value, this.phoneNumber.value));
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
   }
 
 }

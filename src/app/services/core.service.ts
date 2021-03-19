@@ -8,38 +8,22 @@ export enum SortType {
 
  /** Address interface, phone number is otional. */
 export class Contact {
-  constructor(
-    private first_name: string,
-    private last_name: string,
-    private phone_number?: string,
-    ){}
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
 
-    get firstName(){
-      return this.first_name;
+  constructor(private first_name: string, private last_name: string, private phone_number?: string){
+     this.firstName = this.first_name;
+     this.lastName = this.last_name;
+     this.phoneNumber = this.phone_number;
     }
-    set firstName(fn: string){
-      this.first_name = fn;
-    }
-    get lastName(){
-      return this.last_name;
-    }
-    set lastName(fn: string){
-      this.last_name = fn;
-    }
-    get phoneNumber(){
-      return this.phone_number;
-    }
-    set phoneNumber(fn: string){
-      this.phone_number = fn;
-    }
-
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoreService {
-  contacts: Set<Contact> = new Set<Contact>();
+  contacts: Set<Contact> = new Set<Contact>([new Contact('Aled', 'Wassell', '07234563456')]);
 
   /** Sorts the contacts by SortType, E.g. first or last name. */
   sortContacts(sortType: SortType) {

@@ -1,24 +1,6 @@
 :host {
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 1fr 1fr 3fr 1fr;
-  grid-template-areas:
-    ". . ."
-    ". form-controls ."
-    ". contacts-list ."
-    ". . .";
-
-  app-address-form {
-    grid-area: form-controls;
-    border: 3px solid green;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  app-address-list {
-    grid-area: contacts-list;
-    justify-self: center;
-    border: 3px solid green;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
