@@ -28,7 +28,6 @@ func CreatContact(res http.ResponseWriter, req *http.Request) {
 	res.Header().Add("content-type", "application/json")
 	var contact Contact
 	json.NewDecoder(req.Body).Decode(&contact)
-	fmt.Println(contact)
 	collection := client.Database("aledContacts").Collection("contacts")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	_, err := collection.InsertOne(ctx, contact)
@@ -87,7 +86,7 @@ func main() {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, _ = mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	r := mux.NewRouter()
-	r.Use(CORS)
+	// r.Use(CORS) // Uncomment for development.
 	fmt.Printf("Server running @ http://localhost%s\n", port)
 	r.HandleFunc("/contact", CreatContact).Methods("POST")
 	r.HandleFunc("/remove-contact/{id}", DeleteContact).Methods("DELETE")
