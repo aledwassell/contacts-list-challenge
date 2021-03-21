@@ -13,7 +13,7 @@ function createWindow () {
   win.loadURL(`file://${__dirname}/dist/aledAddressBook/index.html`);
 
   // Uncomment if you want the devtools to be open when the app initializes.
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   win.on('closed', () => win = null);
 };

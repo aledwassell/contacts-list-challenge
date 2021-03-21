@@ -1,27 +1,19 @@
 # Aled's Address Book
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+## Running the server code
 
-## Development server
+You will need to install `go get go.mongodb.org/mongo-driver` and `github.com/gorilla/mux` to the run the server.
+You will need to have mongodb installed and run `mongod`.
+cd into the server directory and run `go run main.go`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Development server (Angular web app only)
 
-## Code scaffolding
+Run `npm run start` this will run the app with the proxy settings e.g. `http://localhost:8080` makse sure to set SERVER_URL to '' then navigate to `http://localhost:4200/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Build the Electron app
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `npm run electron-build` to build the Electron app. Then run `npm run electron` to start the app.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).

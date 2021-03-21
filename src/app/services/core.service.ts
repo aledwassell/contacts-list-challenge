@@ -9,6 +9,8 @@ const httpOptions = {
   })
 };
 
+const SERVER_URL = 'http://localhost:8080'; // Use when the app is run within Electron.
+
  /** Address interface, phone number is otional. */
 export class Contact {
   constructor(
@@ -26,7 +28,7 @@ export class CoreService implements OnDestroy {
   private destroy$ = new Subject();
 
   constructor(private http: HttpClient){
-    http.get<Contact[]>('/contacts', httpOptions)
+    http.get<Contact[]>(`${SERVER_URL}/contacts`, httpOptions)
     .pipe(takeUntil(this.destroy$))
     .subscribe(resp => {
       this.contacts$.next(resp);
@@ -41,16 +43,16 @@ export class CoreService implements OnDestroy {
 
   /** Adds a contact. */
   addContact(contact: Contact) {
-    this.http.post<Contact[]>('/contact', JSON.stringify(contact), httpOptions)
+    this.http.post<Contact[]>(`${SERVER_URL}/contact`, JSON.stringify(contact), httpOptions)
     .pipe(takeUntil(this.destroy$))
     .subscribe(resp => {
-      this.contacts$.next(resp)
+      this.contacts$.next(resp);
     })
   }
 
-  /** Removes a contact. */
+  /** Remove a contact. */
   removeContact(contact: Contact) {
-    this.http.delete<Contact[]>(`/remove-contact/${contact._id}`, httpOptions)
+    this.http.delete<Contact[]>(`${SERVER_URL}/remove-contact/${contact._id}`, httpOptions)
     .pipe(takeUntil(this.destroy$))
     .subscribe(resp => {
       this.contacts$.next(resp)
