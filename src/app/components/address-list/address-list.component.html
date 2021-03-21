@@ -1,15 +1,29 @@
-<mat-card *ngIf="contacts.size" >
-  <mat-card-header>
-      <mat-card-title>Contacts</mat-card-title>
+<mat-card *ngIf="contacts">
+  <mat-card-header fxLayout="column">
+      <mat-card-title>
+        Contacts
+      </mat-card-title>
+      <div fxLayoutAlign="space-between center">
+        <div fxLayoutGap="10px">
+          <label>Sort contacts by:</label>
+          <mat-radio-group (change)="sortContacts($event.value)" aria-label="Sort by name"  fxLayoutGap="10px">
+            <mat-radio-button [value]="sortTypeEnum.FIRST_NAME">First Name</mat-radio-button>
+            <mat-radio-button [value]="sortTypeEnum.LAST_NAME">Last Name</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <mat-form-field>
+          <mat-label>Filter Contacts</mat-label>
+          <input [formControl]="filterControl" matInput placeholder="mik...">
+        </mat-form-field>
+      </div>
   </mat-card-header>
   <mat-card-content>
     <mat-list>
       <mat-list-item *ngFor="let contact of contacts">
         <mat-icon mat-list-icon>person</mat-icon>
-        <div mat-line>{{contact.firstName}} {{contact.lastName}}</div>
-        <div mat-line>Phone Number: {{contact.phoneNumber}}</div>
-        <div mat-line>Email: email@email.com</div>
-        <button mat-icon-button (click)="remove(contact)"><mat-icon>delete</mat-icon></button>
+        <div mat-line>{{contact.first_name}} {{contact.last_name}}</div>
+        <div mat-line *ngIf="contact.phone_number">Phone Number: {{contact.phone_number}}</div>
+        <button mat-icon-button (click)="core.removeContact(contact)"><mat-icon>delete</mat-icon></button>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

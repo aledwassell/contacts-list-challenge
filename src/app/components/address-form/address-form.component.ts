@@ -11,7 +11,7 @@ export class AddressFormComponent {
   form = new FormGroup({
     'firstName': new FormControl('', Validators.required),
     'lastName': new FormControl('', Validators.required),
-    'phoneNumber': new FormControl(''),
+    'phoneNumber': new FormControl('', Validators.pattern(/[0-9]/g)),
   });
 
   constructor(private core: CoreService) {}
@@ -29,8 +29,5 @@ export class AddressFormComponent {
   submit(){
     this.core.addContact(new Contact(this.firstName.value, this.lastName.value, this.phoneNumber.value));
     this.form.reset();
-    this.form.markAsPristine();
-    this.form.markAsUntouched();
   }
-
 }

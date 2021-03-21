@@ -1,59 +1,60 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject,Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-/** Sort type enum. */
-export enum SortType {
-  FIRST_NAME = 'firstName',
-  LAST_NAME = 'lastName',
-}
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+  })
+};
 
  /** Address interface, phone number is otional. */
 export class Contact {
-  firstName: string;
-  lastName: string;
-  phoneNumber?: string;
-
-  constructor(private first_name: string, private last_name: string, private phone_number?: string){
-     this.firstName = this.first_name;
-     this.lastName = this.last_name;
-     this.phoneNumber = this.phone_number;
-    }
+  constructor(
+    readonly first_name: string,
+    readonly last_name: string,
+    readonly phone_number?: string,
+    readonly _id?: string){}
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class CoreService {
-  contacts: Set<Contact> = new Set<Contact>([new Contact('Aled', 'Wassell', '07234563456')]);
+export class CoreService implements OnDestroy {
+  contacts$ = new BehaviorSubject<Contact[]>([]);
+  private destroy$ = new Subject();
 
-  /** Sorts the contacts by SortType, E.g. first or last name. */
-  sortContacts(sortType: SortType) {
-    this.contacts = new Set(Array.from(this.contacts).sort((a, b) => {
-      const nameA = a[sortType].toUpperCase();
-      const nameB = b[sortType].toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      } else if (nameA > nameB) {
-        return 1;
-      }
-      return 0; // The names are equal.
-    }));
+  constructor(private http: HttpClient){
+    http.get<Contact[]>('/contacts', httpOptions)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(resp => {
+      this.contacts$.next(resp);
+    });
+  }
+
+  ngOnDestroy() {
+    // Trigger unsubscribe from all subscriptions when service is destroyed.
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /** Adds a contact. */
   addContact(contact: Contact) {
-    this.contacts.add(contact);
+    this.http.post<Contact[]>('/contact', JSON.stringify(contact), httpOptions)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(resp => {
+      this.contacts$.next(resp)
+    })
   }
 
   /** Removes a contact. */
   removeContact(contact: Contact) {
-    this.contacts.delete(contact);
-  }
-
-  getContact(name: string): Contact|null {
-    return Array.from(this.contacts).find(s => stringMatch(s.firstName, name) || stringMatch(s.lastName, name)) ?? null;
+    this.http.delete<Contact[]>(`/remove-contact/${contact._id}`, httpOptions)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(resp => {
+      this.contacts$.next(resp)
+    })
   }
 }
 
-function stringMatch(targetWord: string, match: string){
-  return targetWord.toLocaleLowerCase().match(new RegExp(match.toLocaleLowerCase()));
-}

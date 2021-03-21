@@ -1,45 +1,62 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 
-import {Contact, CoreService, SortType} from './core.service';
+import {Contact, CoreService} from './core.service';
 
 describe('CoreService', () => {
+  let httpMock: HttpTestingController;
+  let injector: TestBed;
   let service: CoreService;
-  const c1 = new Contact('Aled', 'Zulu');
-  const c2 = new Contact('Harry', 'Zulu');
-  const c3 = new Contact('Zoe', 'Allen');
+  const c1 = new Contact('Aled', 'Zulu', '07555', '1');
+  const c2 = new Contact('Harry', 'Zulu', '07555', '2');
+  const c3 = new Contact('Zoe', 'Allen', '07555', '3');
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(CoreService);
-    service.contacts = new Set([c1, c2, c3]);
+    injector = getTestBed();
+    httpMock = injector.get(HttpTestingController);
   });
 
-  it('sorts the contacts', () => {
-    service.sortContacts(SortType.LAST_NAME);
-    expect(Array.from(service.contacts)[0]).toEqual(c3);
+  it('lists contacts', () => {
+    const expectedContacts: Contact[] = [c1,c2,c3];
+    const req = httpMock.expectOne('/contacts');
+    expect(req.request.method).toBe("GET");
+    req.flush(expectedContacts);
 
-    service.sortContacts(SortType.LAST_NAME);
-    expect(Array.from(service.contacts)[2]).toEqual(c2);
+    service.contacts$.subscribe(contacts => {
+      expect(contacts.length).toEqual(3);
+      expect(contacts).toEqual(expectedContacts);
+    });
 
-    service.sortContacts(SortType.FIRST_NAME);
-    expect(Array.from(service.contacts)[0]).toEqual(c1);
   });
 
   it('adds a contact', () => {
-    service.addContact(new Contact('Dorris', 'Smith'));
+    const c4 = new Contact('Dorris', 'Smith');
+    const expectedContacts: Contact[] = [c1,c2,c3,c4];
+    service.addContact(c4);
+    const req = httpMock.expectOne('/contact');
+    expect(req.request.method).toBe("POST");
+    req.flush(expectedContacts);
 
-    expect(service.contacts.size).toBe(4);
+    service.contacts$.subscribe(contacts => {
+      expect(contacts.length).toEqual(4);
+      expect(contacts).toEqual(expectedContacts);
+    });
   });
 
   it('removes a contact', () => {
-    service.removeContact(c1);
+    const expectedContacts: Contact[] = [c1,c2];
+    service.removeContact(c3);
+    const req = httpMock.expectOne('/remove-contact/3');
+    expect(req.request.method).toBe("DELETE");
+    req.flush(expectedContacts);
 
-    expect(service.contacts.size).toBe(2);
-  });
-
-  it('gets contact by first or last name including partial matches', () => {
-    expect(service.getContact('all')).toEqual(c3);
-    expect(service.getContact('HaR')).toEqual(c2);
-    expect(service.getContact('alled')).toEqual(null);
+    service.contacts$.subscribe(contacts => {
+      expect(contacts.length).toEqual(2);
+      expect(contacts).toEqual(expectedContacts);
+    });
   });
 });
