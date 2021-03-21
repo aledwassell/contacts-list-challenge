@@ -20,6 +20,8 @@ Then run `npm run electron` to start the app.
 
 ## Running unit tests
 
+You will need to set `const SERVER_URL = ''` in core.service.ts to run the tests.
+
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 # Shortcomings
@@ -35,7 +37,7 @@ The CORS Middleware function can be removed from within main.go for production, 
 
 ## Angular App
 
-I should remove _id from the Contact class in core.service.ts and contact class could extend the Contact struct on the backend, I think this would be cleaner as _id will only ever be set on the backend.
+I should remove \_id from the Contact class in core.service.ts and contact class could extend the Contact struct on the backend, I think this would be cleaner as \_id will only ever be set on the backend.
 
 address-form.component should have unit tests, preferably testing from an action within the template. E.g. `fixture.debugElement.query('...').click();`
 

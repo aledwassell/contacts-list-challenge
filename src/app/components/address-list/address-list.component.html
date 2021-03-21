@@ -6,7 +6,9 @@
       <div fxLayoutAlign="space-between center">
         <div fxLayoutGap="10px">
           <label>Sort contacts by:</label>
-          <mat-radio-group (change)="sortContacts($event.value)" aria-label="Sort by name"  fxLayoutGap="10px">
+          <mat-radio-group (change)="sortContacts($event.value)"
+                          [disabled]="contacts.length < 2"
+                          aria-label="Sort by name" fxLayoutGap="10px">
             <mat-radio-button [value]="sortTypeEnum.FIRST_NAME">First Name</mat-radio-button>
             <mat-radio-button [value]="sortTypeEnum.LAST_NAME">Last Name</mat-radio-button>
           </mat-radio-group>
