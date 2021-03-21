@@ -1,4 +1,4 @@
-# Aled's Address Book
+# Aled's Contacts Address Book
 
 ## Running the server code
 
@@ -41,6 +41,6 @@ I should remove \_id from the Contact class in core.service.ts and contact class
 
 address-form.component should have unit tests, preferably testing from an action within the template. E.g. `fixture.debugElement.query('...').click();`
 
-I could have used the [Angular Material Table ](https://material.angular.io/components/table/overview#table-basic) to diplay the contacts, it has built in sorting and filtering functionality.
+I could have used the [Angular Material Table ](https://material.angular.io/components/table/overview#table-basic) to diplay the contacts, it has built in sorting, filtering and pagination functionality.
 
 I would have liked to have added more validation on the add contact form, E.g. phone number validation.
