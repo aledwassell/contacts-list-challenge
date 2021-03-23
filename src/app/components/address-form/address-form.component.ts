@@ -17,13 +17,13 @@ export class AddressFormComponent {
   constructor(private core: CoreService) {}
 
   get firstName(): AbstractControl {
-    return this.form.controls['firstName'];
+    return this.form.get('firstName');
   }
   get lastName(): AbstractControl {
-    return this.form.controls['lastName'];
+    return this.form.get('lastName');
   }
   get phoneNumber(): AbstractControl {
-    return this.form.controls['phoneNumber'];
+    return this.form.get('phoneNumber');
   }
 
   submit(){
